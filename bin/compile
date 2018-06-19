@@ -8,7 +8,7 @@ build_dir=$1
 cache_dir=$2
 bp_dir=$(cd $(dirname $0); cd ..; pwd)
 vendor_dir=$build_dir/vendor
-JRE_ARHIVE=jre-8u102-ea-bin-b04-linux-x64-25_apr_2016.tar.gz
+JRE_ARHIVE=server-jre-8u172-linux-x64.tar.gz
 JRE_ARHIVE_FILE=$bp_dir/files/$JRE_ARHIVE
 
 # CF Common
@@ -26,6 +26,9 @@ pushd $vendor_dir
   tar -xzf ./$JRE_ARHIVE
   rm $JRE_ARHIVE
   JRE_NAME=$(ls -l | tr " " "\n" | grep jre)
+  if [ "$JRE_NAME" = "" ]; then
+      JRE_NAME=$(ls -l | tr " " "\n" | grep jdk)
+  fi
   JRE_DIR=$vendor_dir/$JRE_NAME
   status "Moving $JRE_NAME to target folder."
   mv $JRE_DIR jre
